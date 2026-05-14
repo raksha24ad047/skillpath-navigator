@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { SiteNav } from "@/components/SiteNav";
 import { ReadinessScore } from "@/components/ReadinessScore";
 import { MarketHeatmap } from "@/components/MarketHeatmap";
-import { SkillGapPanel } from "@/components/SkillGapPanel";
 import { CompanyCheatSheet } from "@/components/CompanyCheatSheet";
+import { FeatureDialog, type FeatureKey } from "@/components/FeatureDialog";
 import {
   ArrowUpRight,
   Sparkles,
