@@ -36,6 +36,7 @@ export const Route = createFileRoute("/")({
 });
 
 function LandingPage() {
+  const [openFeature, setOpenFeature] = useState<FeatureKey | null>(null);
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SiteNav />
