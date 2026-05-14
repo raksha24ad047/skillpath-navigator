@@ -204,19 +204,27 @@ function FeatureCard({
   title,
   desc,
   accent,
+  onClick,
 }: {
   icon: React.ReactNode;
   title: string;
   desc: string;
   accent: "blue" | "purple";
+  onClick?: () => void;
 }) {
   const ring = accent === "blue" ? "text-electric bg-electric-soft border-electric/20" : "text-purple bg-purple-soft border-purple/20";
   return (
-    <div className="group relative bg-card border border-hairline rounded-2xl p-6 hover:border-electric/40 transition-colors overflow-hidden">
+    <button
+      onClick={onClick}
+      className="group relative text-left w-full bg-card border border-hairline rounded-2xl p-6 hover:border-electric/40 transition-colors overflow-hidden cursor-pointer focus:outline-none focus:border-electric/60"
+    >
       <div className="absolute -top-16 -right-16 size-40 bg-electric/0 group-hover:bg-electric/10 blur-3xl transition-colors" />
       <div className={`relative inline-flex items-center justify-center size-9 rounded-lg border ${ring} mb-5`}>{icon}</div>
       <h3 className="relative text-base font-bold text-foreground mb-2 tracking-tight">{title}</h3>
       <p className="relative text-sm text-muted-foreground leading-relaxed">{desc}</p>
-    </div>
+      <span className="relative mt-4 inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-electric opacity-0 group-hover:opacity-100 transition-opacity">
+        Open <ArrowUpRight className="size-3" />
+      </span>
+    </button>
   );
 }
