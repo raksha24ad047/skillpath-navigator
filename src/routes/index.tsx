@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { SiteNav } from "@/components/SiteNav";
 import { ReadinessScore } from "@/components/ReadinessScore";
 import { MarketHeatmap } from "@/components/MarketHeatmap";
-import { SkillGapPanel } from "@/components/SkillGapPanel";
 import { CompanyCheatSheet } from "@/components/CompanyCheatSheet";
+import { FeatureDialog, type FeatureKey } from "@/components/FeatureDialog";
 import {
   ArrowUpRight,
   Sparkles,
@@ -35,6 +36,7 @@ export const Route = createFileRoute("/")({
 });
 
 function LandingPage() {
+  const [openFeature, setOpenFeature] = useState<FeatureKey | null>(null);
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SiteNav />
@@ -111,36 +113,42 @@ function LandingPage() {
 
           <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <FeatureCard
+              onClick={() => setOpenFeature("skill-gap")}
               icon={<Sparkles className="size-4" />}
               title="AI Skill Gap Analyzer"
               desc="Onboard your stack. We compare it against role-specific industry personas and surface what to learn first."
               accent="blue"
             />
             <FeatureCard
+              onClick={() => setOpenFeature("roadmap")}
               icon={<Map className="size-4" />}
               title="Dynamic Roadmap"
               desc="A vertical timeline tuned to your pace. Toggle Video vs. Reading and we re-pick resources accordingly."
               accent="purple"
             />
             <FeatureCard
+              onClick={() => setOpenFeature("resume")}
               icon={<FileText className="size-4" />}
               title="AI Resume Optimizer"
               desc="Drop your PDF. Get an ATS score and replacement action verbs that match the JD you're targeting."
               accent="blue"
             />
             <FeatureCard
+              onClick={() => setOpenFeature("mock-interview")}
               icon={<Mic className="size-4" />}
               title="Mock Interview Simulation"
               desc="Pick a role, pick a persona — Stressed Recruiter or Friendly Mentor — and run through 3 sharp questions."
               accent="purple"
             />
             <FeatureCard
+              onClick={() => setOpenFeature("companies")}
               icon={<Building2 className="size-4" />}
               title="Company Cheat Sheets"
               desc="Google, Atlassian, TCS, Uber and more. The exact pattern, not the folklore."
               accent="blue"
             />
             <FeatureCard
+              onClick={() => setOpenFeature("market")}
               icon={<Activity className="size-4" />}
               title="Market Heatmap"
               desc="What's actually hiring right now. LLM Ops, Cloud Native, Rust — with weekly delta signals."
@@ -149,6 +157,14 @@ function LandingPage() {
           </div>
         </div>
       </section>
+
+      {openFeature && (
+        <FeatureDialog
+          feature={openFeature}
+          open={openFeature !== null}
+          onOpenChange={(v) => !v && setOpenFeature(null)}
+        />
+      )}
 
       {/* Companies preview */}
       <section id="companies" className="py-24 border-t border-hairline">
@@ -188,19 +204,27 @@ function FeatureCard({
   title,
   desc,
   accent,
+  onClick,
 }: {
   icon: React.ReactNode;
   title: string;
   desc: string;
   accent: "blue" | "purple";
+  onClick?: () => void;
 }) {
   const ring = accent === "blue" ? "text-electric bg-electric-soft border-electric/20" : "text-purple bg-purple-soft border-purple/20";
   return (
-    <div className="group relative bg-card border border-hairline rounded-2xl p-6 hover:border-electric/40 transition-colors overflow-hidden">
+    <button
+      onClick={onClick}
+      className="group relative text-left w-full bg-card border border-hairline rounded-2xl p-6 hover:border-electric/40 transition-colors overflow-hidden cursor-pointer focus:outline-none focus:border-electric/60"
+    >
       <div className="absolute -top-16 -right-16 size-40 bg-electric/0 group-hover:bg-electric/10 blur-3xl transition-colors" />
       <div className={`relative inline-flex items-center justify-center size-9 rounded-lg border ${ring} mb-5`}>{icon}</div>
       <h3 className="relative text-base font-bold text-foreground mb-2 tracking-tight">{title}</h3>
       <p className="relative text-sm text-muted-foreground leading-relaxed">{desc}</p>
-    </div>
+      <span className="relative mt-4 inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-electric opacity-0 group-hover:opacity-100 transition-opacity">
+        Open <ArrowUpRight className="size-3" />
+      </span>
+    </button>
   );
 }
