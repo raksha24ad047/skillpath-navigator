@@ -113,36 +113,42 @@ function LandingPage() {
 
           <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <FeatureCard
+              onClick={() => setOpenFeature("skill-gap")}
               icon={<Sparkles className="size-4" />}
               title="AI Skill Gap Analyzer"
               desc="Onboard your stack. We compare it against role-specific industry personas and surface what to learn first."
               accent="blue"
             />
             <FeatureCard
+              onClick={() => setOpenFeature("roadmap")}
               icon={<Map className="size-4" />}
               title="Dynamic Roadmap"
               desc="A vertical timeline tuned to your pace. Toggle Video vs. Reading and we re-pick resources accordingly."
               accent="purple"
             />
             <FeatureCard
+              onClick={() => setOpenFeature("resume")}
               icon={<FileText className="size-4" />}
               title="AI Resume Optimizer"
               desc="Drop your PDF. Get an ATS score and replacement action verbs that match the JD you're targeting."
               accent="blue"
             />
             <FeatureCard
+              onClick={() => setOpenFeature("mock-interview")}
               icon={<Mic className="size-4" />}
               title="Mock Interview Simulation"
               desc="Pick a role, pick a persona — Stressed Recruiter or Friendly Mentor — and run through 3 sharp questions."
               accent="purple"
             />
             <FeatureCard
+              onClick={() => setOpenFeature("companies")}
               icon={<Building2 className="size-4" />}
               title="Company Cheat Sheets"
               desc="Google, Atlassian, TCS, Uber and more. The exact pattern, not the folklore."
               accent="blue"
             />
             <FeatureCard
+              onClick={() => setOpenFeature("market")}
               icon={<Activity className="size-4" />}
               title="Market Heatmap"
               desc="What's actually hiring right now. LLM Ops, Cloud Native, Rust — with weekly delta signals."
@@ -151,6 +157,14 @@ function LandingPage() {
           </div>
         </div>
       </section>
+
+      {openFeature && (
+        <FeatureDialog
+          feature={openFeature}
+          open={openFeature !== null}
+          onOpenChange={(v) => !v && setOpenFeature(null)}
+        />
+      )}
 
       {/* Companies preview */}
       <section id="companies" className="py-24 border-t border-hairline">
